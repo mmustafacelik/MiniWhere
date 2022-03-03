@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'cubit/login_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
   var size, height, width;
   String? email;
   String? sifre;
+  bool isvalid = false;
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -63,7 +66,9 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     onChanged: (emailtext) {
-                      email = emailtext;
+                      {
+                        email = emailtext;
+                      }
                     },
                   ),
                 ),
@@ -91,7 +96,43 @@ class LoginPage extends StatelessWidget {
                       sifre = sifretext;
                     },
                   ),
-                )
+                ),
+                SizedBox(
+                  height: height / 20,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: width / 15),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!EmailValidator.validate(email!)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Geçersiz E-mail"),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text("Giriş Yap"),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: width / 20),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("Şifremi Unuttum"),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: width / 20),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("Kayıt Ol"),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
